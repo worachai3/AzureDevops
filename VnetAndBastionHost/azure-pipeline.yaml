@@ -21,19 +21,6 @@ stages:
       - job: validate
         continueOnError: false
         steps:
-          - task: Bash@3
-            displayName: checkout
-            inputs:
-              targetType: 'inline'
-              script: |
-                cd /home/vsts/work/1/s
-                git pull origin main
-                pwd
-                echo '========================='
-                ls
-                echo '========================='
-                cd VnetAndBastionHost
-
           - task: TerraformInstaller@1
             displayName: tfinstall
             inputs:
@@ -43,6 +30,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
               backendServiceArm: 'DevTestServiceConnection'
               backendAzureRmResourceGroupName: '${bkstrgrg}'
               backendAzureRmStorageAccountName: '${bkstrg}'
@@ -54,6 +42,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'validate'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
 
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
@@ -61,19 +50,6 @@ stages:
     jobs:
       - job: apply
         steps:
-          - task: Bash@3
-            displayName: checkout
-            inputs:
-              targetType: 'inline'
-              script: |
-                cd /home/vsts/work/1/s
-                git pull origin main
-                pwd
-                echo '========================='
-                ls
-                echo '========================='
-                cd VnetAndBastionHost
-
           - task: TerraformInstaller@1
             displayName: tfinstall
             inputs:
@@ -83,6 +59,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
               backendServiceArm: 'DevTestServiceConnection'
               backendAzureRmResourceGroupName: '${bkstrgrg}'
               backendAzureRmStorageAccountName: '${bkstrg}'
@@ -94,6 +71,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
           
           - task: TerraformTaskV4@4
@@ -101,4 +79,5 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
