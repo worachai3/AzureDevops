@@ -20,14 +20,15 @@ stages:
     jobs:
       - job: projectcheckout
         steps:
-          - task: DownloadGitHubRelease@0
-            displayName: projectcheckout
+          - task: Bash@3
+            displayName: checkout
             inputs:
-              connection: 'AzureDevops repo'
-              userRepository: 'worachai3/AzureDevops'
-              defaultVersionType: 'latest'
-              downloadPath: '$(System.ArtifactsDirectory)'
-              
+              targetType: 'inline'
+              script: |
+                cd /home/vsts/work/1/s
+                git pull origin main
+                cd VnetAndBastionHost@
+
   - stage: tfvalidate
     jobs:
       - job: validate
