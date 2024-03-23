@@ -32,10 +32,10 @@ stages:
               command: 'init'
               workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
               backendServiceArm: 'DevTestServiceConnection'
-              backendAzureRmResourceGroupName: '${bkstrgrg}'
-              backendAzureRmStorageAccountName: '${bkstrg}'
-              backendAzureRmContainerName: '${bkcontainer}'
-              backendAzureRmKey: '${bkstrgkey}'
+              backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              backendAzureRmStorageAccountName: '$(bkstrg)'
+              backendAzureRmContainerName: '$(bkcontainer)'
+              backendAzureRmKey: '$(bkstrgkey)'
               
           - task: TerraformTaskV4@4
             displayName: validate
@@ -61,10 +61,10 @@ stages:
               command: 'init'
               workingDirectory: '$(System.DefaultWorkingDirectory)/VnetAndBastionHost'
               backendServiceArm: 'DevTestServiceConnection'
-              backendAzureRmResourceGroupName: '${bkstrgrg}'
-              backendAzureRmStorageAccountName: '${bkstrg}'
-              backendAzureRmContainerName: '${bkcontainer}'
-              backendAzureRmKey: '${bkstrgkey}'
+              backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              backendAzureRmStorageAccountName: '$(bkstrg)'
+              backendAzureRmContainerName: '$(bkcontainer)'
+              backendAzureRmKey: '$(bkstrgkey)'
 
           - task: TerraformTaskV4@4
             displayName: plan
