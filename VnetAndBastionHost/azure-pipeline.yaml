@@ -31,7 +31,7 @@ stages:
                 echo '========================='
                 ls
                 echo '========================='
-                cd VnetAndBastionHost@
+                cd VnetAndBastionHost
 
   - stage: tfvalidate
     jobs:
