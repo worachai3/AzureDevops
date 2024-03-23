@@ -16,6 +16,18 @@ variables:
   bkstrgkey: 'devpipeline.terraform.tfstate'
 
 stages:
+  - stage: projectcheckout
+    jobs:
+      - job: projectcheckout
+        steps:
+          - task: DownloadGitHubRelease@0
+            displayName: projectcheckout
+            inputs:
+              connection: 'AzureDevops repo'
+              userRepository: 'worachai3/AzureDevops'
+              defaultVersionType: 'latest'
+              downloadPath: '$(System.ArtifactsDirectory)'
+              
   - stage: tfvalidate
     jobs:
       - job: validate
