@@ -27,6 +27,10 @@ stages:
               script: |
                 cd /home/vsts/work/1/s
                 git pull origin main
+                pwd
+                echo '========================='
+                ls
+                echo '========================='
                 cd VnetAndBastionHost@
 
   - stage: tfvalidate
