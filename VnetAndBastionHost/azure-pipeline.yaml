@@ -21,6 +21,19 @@ stages:
       - job: validate
         continueOnError: false
         steps:
+          - task: Bash@3
+            displayName: checkout
+            inputs:
+              targetType: 'inline'
+              script: |
+                cd /home/vsts/work/1/s
+                git pull origin main
+                pwd
+                echo '========================='
+                ls
+                echo '========================='
+                cd VnetAndBastionHost
+
           - task: TerraformInstaller@1
             displayName: tfinstall
             inputs:
@@ -46,7 +59,7 @@ stages:
     condition: succeeded('tfvalidate')
     dependsOn: tfvalidate
     jobs:
-      - job: projectcheckout
+      - job: apply
         steps:
           - task: Bash@3
             displayName: checkout
@@ -61,8 +74,6 @@ stages:
                 echo '========================='
                 cd VnetAndBastionHost
 
-      - job: apply
-        steps:
           - task: TerraformInstaller@1
             displayName: tfinstall
             inputs:
