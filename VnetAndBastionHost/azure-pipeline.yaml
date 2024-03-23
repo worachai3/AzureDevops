@@ -16,23 +16,6 @@ variables:
   bkstrgkey: 'devpipeline.terraform.tfstate'
 
 stages:
-  - stage: projectcheckout
-    jobs:
-      - job: projectcheckout
-        steps:
-          - task: Bash@3
-            displayName: checkout
-            inputs:
-              targetType: 'inline'
-              script: |
-                cd /home/vsts/work/1/s
-                git pull origin main
-                pwd
-                echo '========================='
-                ls
-                echo '========================='
-                cd VnetAndBastionHost
-
   - stage: tfvalidate
     jobs:
       - job: validate
@@ -63,6 +46,21 @@ stages:
     condition: succeeded('tfvalidate')
     dependsOn: tfvalidate
     jobs:
+      - job: projectcheckout
+        steps:
+          - task: Bash@3
+            displayName: checkout
+            inputs:
+              targetType: 'inline'
+              script: |
+                cd /home/vsts/work/1/s
+                git pull origin main
+                pwd
+                echo '========================='
+                ls
+                echo '========================='
+                cd VnetAndBastionHost
+
       - job: apply
         steps:
           - task: TerraformInstaller@1
